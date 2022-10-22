@@ -1,7 +1,7 @@
-import { sep } from 'path'
+import { join } from 'path'
 import { Logger } from 'pino'
 import { HookManager } from '../hook/index.js'
-import { Initable } from '../util/index.js'
+import { APP_ROOT, Initable } from '../util/index.js'
 
 export type Plugin = (hooks: HookManager) => void | Promise<void>
 
@@ -15,18 +15,10 @@ async function tryImport(path: string): Promise<unknown> {
 
 async function loadPlugin(path: string): Promise<Plugin> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let plugin: any = null
-  if (path.startsWith('@')) {
-    // scoped package
-    plugin = await tryImport(path)
-  } else if (path.includes(sep)) {
-    // path to package
-    plugin = await tryImport(path)
-  } else {
-    // internal plugin or external package
-    plugin = await tryImport(`./${path}.js`)
-    plugin = plugin ?? (await tryImport(path))
-  }
+  let plugin: any = await tryImport(path)
+  plugin ??= await tryImport(join(APP_ROOT, 'plugins', path, 'lib', 'index.js'))
+  plugin ??= await tryImport(join(APP_ROOT, 'plugins', path, 'index.js'))
+  plugin ??= await tryImport(`./${path}.js`)
   if (plugin) return plugin.default as Plugin
   throw new Error(`Could not load plugin ${path}`)
 }
