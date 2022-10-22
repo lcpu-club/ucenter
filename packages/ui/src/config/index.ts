@@ -1,3 +1,8 @@
+export interface IBrand {
+  icon: string
+  href: string
+}
+
 export interface ILoginMethod {
   name: string
   target?: string
@@ -5,11 +10,16 @@ export interface ILoginMethod {
 }
 
 export interface IRuntimeConfig {
+  brand?: IBrand
   baseUrl: string
   loginMethods: ILoginMethod[]
 }
 
 export const config: IRuntimeConfig = {
+  brand: {
+    icon: '/ucenter-text.svg',
+    href: '/'
+  },
   baseUrl: window.location.pathname,
   loginMethods: [
     { name: 'Password', target: '/login/password' }
