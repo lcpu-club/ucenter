@@ -1,0 +1,22 @@
+{
+  "name": "ucenter-workspace",
+  "version": "0.0.1",
+  "description": "uCenter Monorepo",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lcpu-club/ucenter.git"
+  },
+  "bugs": {
+    "url": "https://github.com/lcpu-club/ucenter/issues"
+  },
+  "license": "AGPL-3.0",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "eslint": "^8.25.0",
+    "prettier": "^2.7.1",
+    "typescript": "^4.8.4"
+  }
+}
