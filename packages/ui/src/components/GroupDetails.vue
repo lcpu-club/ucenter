@@ -11,7 +11,7 @@
 
 <script setup lang="ts">
 import { NDescriptions, NDescriptionsItem } from 'naive-ui'
-import { IGroup } from 'src/api'
+import type { IGroup } from '@ucenter/server'
 
 const props = defineProps<{
   group: Partial<IGroup>

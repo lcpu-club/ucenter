@@ -1,30 +1,21 @@
 import fastify from 'fastify'
 import fastifyCors, { FastifyCorsOptions } from '@fastify/cors'
-import fastifySensible from '@fastify/sensible'
 import fastifyStatic from '@fastify/static'
-import { fastifyTRPCPlugin } from '@trpc/server/adapters/fastify'
-import {
-  serializerCompiler,
-  validatorCompiler,
-  ZodTypeProvider
-} from 'fastify-type-provider-zod'
 import pino from 'pino'
 import { DbConn, IDbConnOptions } from './db/index.js'
 import { HookManager } from './hook/index.js'
 import { IPluginManagerOptions, PluginManager } from './plugin/index.js'
-import { Initable } from './util/index.js'
-import { Router } from '@trpc/server'
-import * as tRPC from './api/trpc.js'
-import { createContext } from './api/trpc.js'
-import { appRouter } from './api/router.js'
+import { Initable, PACKAGE_JSON } from './util/index.js'
 import { ContributionManager } from './contribution/index.js'
+import type { TypeBoxTypeProvider } from '@fastify/type-provider-typebox'
+import { rootRouter } from './api/index.js'
 
 declare module './contribution/index.js' {
   interface IHookMap {
     'post-contribution-setup': [ContributionManager]
     'post-dbconn-setup': [DbConn]
     'post-plugin-setup': [PluginManager]
-    'post-server-setup': [App, typeof tRPC]
+    'post-server-setup': [App]
   }
 }
 
@@ -37,6 +28,7 @@ declare module 'fastify' {
 export interface IAppOptions {
   db: IDbConnOptions
   plugins: IPluginManagerOptions
+  openapi: boolean
   cors: FastifyCorsOptions
   host: string
   port: number
@@ -62,9 +54,7 @@ export class App extends Initable {
       options.plugins
     )
     const server = fastify({ logger, trustProxy: options.trustProxy })
-    server.setValidatorCompiler(validatorCompiler)
-    server.setSerializerCompiler(serializerCompiler)
-    this.server = server.withTypeProvider<ZodTypeProvider>()
+    this.server = server.withTypeProvider<TypeBoxTypeProvider>()
     this.server.decorate('app', this as App)
   }
 
@@ -74,10 +64,25 @@ export class App extends Initable {
     await this.hooks.fire('post-contribution-setup', this.contributions)
     await this.dbconn.init()
     await this.hooks.fire('post-dbconn-setup', this.dbconn)
+    if (this.options.openapi) {
+      const { default: swagger } = await import('@fastify/swagger')
+      await this.server.register(swagger, {
+        openapi: {
+          info: {
+            title: 'UCenter Server',
+            description: 'UCenter Server API',
+            version: PACKAGE_JSON.version
+          }
+        }
+      })
+      const { default: ui } = await import('@fastify/swagger-ui')
+      await this.server.register(ui, {
+        routePrefix: '/docs'
+      })
+    }
     await this.server.register(fastifyCors, this.options.cors)
-    await this.server.register(fastifySensible)
-    await this.mount('/trpc', appRouter)
-    await this.hooks.fire('post-server-setup', this, tRPC)
+    await this.server.register(rootRouter.toPlugin())
+    await this.hooks.fire('post-server-setup', this)
     await this.server.register(fastifyStatic, {
       root: this.options.static
     })
@@ -86,19 +91,5 @@ export class App extends Initable {
       port: this.options.port
     })
     this.logger.info('App started')
-  }
-
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  mount(prefix: string, router: Router<any>) {
-    return this.server.register(fastifyTRPCPlugin, {
-      prefix,
-      trpcOptions: {
-        router,
-        createContext,
-        batching: {
-          enabled: false
-        }
-      }
-    })
   }
 }

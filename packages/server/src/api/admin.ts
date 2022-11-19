@@ -1,6 +1,6 @@
 import { CONFIG } from '../config/index.js'
-import { adminProcedure, router } from './trpc.js'
+import { adminChain } from './base.js'
 
-export const adminRouter = router({
-  config: adminProcedure.query(async () => CONFIG)
-})
+export const adminRouter = adminChain
+  .router()
+  .handle('GET', '/config', (C) => C.handler().handle(async () => CONFIG))

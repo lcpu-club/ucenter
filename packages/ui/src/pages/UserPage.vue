@@ -11,7 +11,9 @@
         <NTabPane name="group" tab="Group">
           <MyGroupDetails />
         </NTabPane>
-        <NTabPane name="tokens" tab="Tokens"> Tokens </NTabPane>
+        <NTabPane name="tokens" tab="Tokens">
+          <TokenManager />
+        </NTabPane>
       </NTabs>
     </NCard>
   </div>
@@ -22,4 +24,5 @@ import { NCard, NTabs, NTabPane } from 'naive-ui'
 import { userInfo } from 'src/api'
 import UserDetails from '../components/UserDetails.vue'
 import MyGroupDetails from 'src/components/MyGroupDetails.vue'
+import TokenManager from 'src/components/user/TokenManager.vue'
 </script>

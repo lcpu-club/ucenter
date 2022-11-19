@@ -1,22 +1,22 @@
-import { z } from 'zod'
-import { publicProcedure, router } from './trpc.js'
+import { Type } from '@sinclair/typebox'
+import { apiChain } from './base.js'
 
-export const publicRouter = router({
-  verify: publicProcedure
-    .input(
-      z.object({
-        token: z.string(),
-        policies: z
-          .array(z.string().regex(/^[a-zA-Z0-9:]+$/))
-          .min(1)
-          .max(50)
+export const publicRouter = apiChain.router().handle('POST', '/verify', (C) =>
+  C.handler()
+    .body(
+      Type.Object({
+        token: Type.String(),
+        policies: Type.Array(Type.String(), {
+          minItems: 1,
+          maxItems: 50
+        })
       })
     )
-    .query(async ({ ctx, input }) => {
+    .handle(async (ctx, req) => {
       const info = ctx.dbconn.token.loadUserInfo(
-        input.token,
-        <never>input.policies
+        req.body.token,
+        <never>req.body.policies
       )
       return info
     })
-})
+)

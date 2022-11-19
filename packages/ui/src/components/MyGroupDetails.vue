@@ -8,12 +8,13 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { NSpin } from 'naive-ui'
-import { client, IGroup } from 'src/api'
+import { client } from 'src/api'
 import GroupDetails from './GroupDetails.vue'
+import type { IGroup } from '@ucenter/server'
 
 const group = ref<IGroup>()
 
-client.user.group.query().then((result) => {
-  group.value = result
+client.user.group.$get.fetch().then((res) => {
+  group.value = res
 })
 </script>

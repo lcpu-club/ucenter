@@ -14,5 +14,16 @@
 
 <script setup lang="ts">
 import { isLoggedIn, userInfo } from 'src/api'
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+
+const router = useRouter()
+
+onMounted(() => {
+  if (isLoggedIn.value) {
+    router.replace('/user')
+  } else {
+    router.replace('/login')
+  }
+})
 </script>
-z

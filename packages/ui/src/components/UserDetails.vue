@@ -14,7 +14,7 @@
 
 <script setup lang="ts">
 import { NDescriptions, NDescriptionsItem } from 'naive-ui'
-import { IUser } from 'src/api'
+import type { IUser } from '@ucenter/server'
 
 const props = defineProps<{
   user: Partial<IUser>

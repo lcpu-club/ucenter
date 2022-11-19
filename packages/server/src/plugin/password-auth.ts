@@ -1,5 +1,8 @@
-import { z } from 'zod'
+import { Type } from '@sinclair/typebox'
 import bcrypt from 'bcrypt'
+import { GetRouterDescriptor } from 'fastify-typeful'
+import http from 'http-errors'
+import { rootChain } from '../api/base.js'
 import type { Plugin } from '../index.js'
 import { askString } from '../util/index.js'
 
@@ -11,13 +14,48 @@ declare module '../contribution/index.js' {
   }
 }
 
+const router = rootChain.router().handle('POST', '/login', (C) =>
+  C.handler()
+    .body(
+      Type.Object({
+        username: Type.String(),
+        password: Type.String()
+      })
+    )
+    .handle(async ({ dbconn }, req) => {
+      const { username, password } = req.body
+      const user = await dbconn.user.collection.findOne(
+        { 'attributes.username': username },
+        {
+          projection: {
+            _id: 1,
+            'authSources.password': 1
+          }
+        }
+      )
+      if (!user || !user.authSources.password) throw http.Unauthorized()
+      const result = await bcrypt.compare(
+        password,
+        user.authSources.password.hash
+      )
+      if (!result) throw http.Unauthorized()
+      const token = await dbconn.token.createCenterToken(user._id)
+      return { token }
+    })
+)
+
+export type PasswordAuthDescriptor = GetRouterDescriptor<typeof router>
+
 const plugin: Plugin = (hooks) => {
   hooks.hook('post-plugin-setup', ({ logger }) => {
     logger.info('Setting up password auth plugin')
   })
   hooks.hook('post-contribution-setup', (contrib) => {
     contrib.userAuthSources.set('password', {
-      description: 'Password Login'
+      description: 'Password Login',
+      schema: Type.Object({
+        hash: Type.String()
+      })
     })
   })
   hooks.hook('post-dbconn-setup', async (dbconn) => {
@@ -43,39 +81,7 @@ const plugin: Plugin = (hooks) => {
     })
   })
   hooks.hook('post-server-setup', (app) => {
-    const { server, dbconn } = app
-    server.post(
-      '/api/auth/password/login',
-      {
-        schema: {
-          body: z.object({
-            username: z.string(),
-            password: z.string()
-          })
-        }
-      },
-      async (req) => {
-        const { username, password } = req.body
-        const user = await dbconn.user.collection.findOne(
-          { 'attributes.username': username },
-          {
-            projection: {
-              _id: 1,
-              'authSources.password': 1
-            }
-          }
-        )
-        if (!user || !user.authSources.password)
-          throw server.httpErrors.forbidden()
-        const result = await bcrypt.compare(
-          password,
-          user.authSources.password.hash
-        )
-        if (!result) throw server.httpErrors.forbidden()
-        const token = await dbconn.token.createCenterToken(user._id)
-        return { token }
-      }
-    )
+    app.server.register(router.toPlugin(), { prefix: '/auth/password' })
   })
 }
 

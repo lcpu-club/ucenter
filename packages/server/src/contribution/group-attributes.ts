@@ -1,9 +1,9 @@
-import { z, ZodSchema } from 'zod'
+import { TSchema, Type } from '@sinclair/typebox'
 import { ContributionPoint } from './base.js'
 import { IGroupAttributes } from './index.js'
 
 export interface IGroupAttributesMeta {
-  schema: ZodSchema
+  schema: TSchema
   description: string
 }
 
@@ -14,7 +14,7 @@ export class GroupAttributes extends ContributionPoint<
   constructor() {
     super()
     this.set('name', {
-      schema: z.string(),
+      schema: Type.String(),
       description: 'Username'
     })
   }

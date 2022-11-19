@@ -12,6 +12,7 @@ export interface IToken {
   type: 'web' | 'app'
   userId: string
   prefixes: string[]
+  description: string
   createdAt: number
   expiresAt: number
   usedAt: number
@@ -50,11 +51,12 @@ export class TokenManager extends Initable {
     return value
   }
 
-  async createCenterToken(userId: string) {
+  async createCenterToken(userId: string, description = 'Center Access Token') {
     return this.create({
       type: 'web',
       userId,
       prefixes: ['center:'],
+      description,
       // Center token will be expired in 3 months regardless of usage
       expiresAt: Date.now() + THREE_MONTHS
     })

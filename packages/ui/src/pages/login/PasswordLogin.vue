@@ -26,29 +26,35 @@
 </template>
 
 <script setup lang="ts">
-import { NCard, NSpace, NInput, NButton } from 'naive-ui'
+import { NCard, NSpace, NInput, NButton, useNotification } from 'naive-ui'
 import { ref } from 'vue'
+import { createClient } from 'typeful-fetch'
 import { getUrl } from 'src/config'
 import { post } from 'src/utils/broadcast'
+import type { PasswordAuthDescriptor } from '@ucenter/server/lib/plugin/password-auth'
+
+const notification = useNotification()
 
 const username = ref('')
 const password = ref('')
 
+const client = createClient<PasswordAuthDescriptor>(getUrl('/auth/password/'))
+
 async function login() {
-  const res = await fetch(getUrl('/api/auth/password/login'), {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({
-      username: username.value,
-      password: password.value
-    })
-  })
-  if (res.ok) {
-    const { token } = await res.json()
+  try {
+    const { token } = await client.login.$post
+      .body({
+        username: username.value,
+        password: password.value
+      })
+      .fetch()
     localStorage.setItem('authToken', token)
     post('reload')
+  } catch (err) {
+    notification.error({
+      content: `${err}`,
+      duration: 3000
+    })
   }
 }
 </script>

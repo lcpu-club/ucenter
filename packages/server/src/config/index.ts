@@ -18,7 +18,7 @@ const factory =
   }
 const str = factory((x) => x)
 const num = factory((x) => parseInt(x, 10))
-// const bool = factory((x) => x === 'true')
+const bool = factory((x) => x === 'true')
 const json = factory((x) => JSON.parse(x))
 
 export const CONFIG: IAppOptions & ICliAppOptions = {
@@ -28,6 +28,7 @@ export const CONFIG: IAppOptions & ICliAppOptions = {
   plugins: {
     plugins: json('PLUGINS', ['rest', 'password-auth'])
   },
+  openapi: bool('OPENAPI', false),
   port: num('SERVER_PORT', 3000),
   host: str('SERVER_HOST', '127.0.0.1'),
   cors: json('SERVER_CORS', { origin: true }),

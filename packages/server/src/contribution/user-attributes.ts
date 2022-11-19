@@ -1,9 +1,9 @@
-import { z, ZodSchema } from 'zod'
+import { TSchema, Type } from '@sinclair/typebox'
 import { ContributionPoint } from './base.js'
 import { IUserAttributes } from './index.js'
 
 export interface IUserAttributesMeta {
-  schema: ZodSchema
+  schema: TSchema
   allowUserEdit: boolean
   description: string
 }
@@ -15,17 +15,17 @@ export class UserAttributes extends ContributionPoint<
   constructor() {
     super()
     this.set('username', {
-      schema: z.string().min(5).max(32),
+      schema: Type.String({ minLength: 5, maxLength: 32 }),
       allowUserEdit: true,
       description: 'Username'
     })
     this.set('nickname', {
-      schema: z.string().min(2).max(32),
+      schema: Type.String({ minLength: 2, maxLength: 32 }),
       allowUserEdit: true,
       description: 'Nickname'
     })
     this.set('email', {
-      schema: z.string().email(),
+      schema: Type.String({ format: 'email' }),
       allowUserEdit: true,
       description: 'Email'
     })

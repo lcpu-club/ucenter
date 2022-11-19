@@ -1,5 +1,5 @@
 <template>
-  <NNotificationProvider>
+  <NNotificationProvider placement="bottom-right">
     <NLayout position="absolute">
       <AppHeader />
       <AppContent />
