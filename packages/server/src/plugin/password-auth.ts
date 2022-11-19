@@ -39,8 +39,8 @@ const router = rootChain.router().handle('POST', '/login', (C) =>
         user.authSources.password.hash
       )
       if (!result) throw http.Unauthorized()
-      const token = await dbconn.token.createCenterToken(user._id)
-      return { token }
+      const info = await dbconn.token.createCenterToken(user._id)
+      return info
     })
 )
 

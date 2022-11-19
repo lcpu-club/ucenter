@@ -8,7 +8,6 @@ const THREE_MONTHS = 1000 * 60 * 60 * 24 * 90
 
 export interface IToken {
   _id: string
-  value: string
   type: 'web' | 'app'
   userId: string
   prefixes: string[]
@@ -22,18 +21,17 @@ export class TokenManager extends Initable {
   collection
   constructor(public dbconn: DbConn) {
     super(dbconn.logger)
-    this.collection = dbconn.db.collection<IToken>('token')
+    this.collection = dbconn.db.collection<IToken & { value: string }>('token')
   }
 
-  async get(where: Filter<IToken>) {
+  async get(where: Filter<IToken>): Promise<IToken | null> {
     const token = await this.collection.findOne(where, {
       projection: { value: 0 }
     })
-    if (!token) throw new Error('Bad token')
     return token
   }
 
-  async list(where: Filter<IToken>) {
+  async list(where: Filter<IToken>): Promise<Array<IToken>> {
     return this.collection.find(where, { projection: { value: 0 } }).toArray()
   }
 
@@ -48,7 +46,7 @@ export class TokenManager extends Initable {
       createdAt,
       usedAt: 0
     })
-    return value
+    return { _id, value }
   }
 
   async createCenterToken(userId: string, description = 'Center Access Token') {
@@ -71,6 +69,7 @@ export class TokenManager extends Initable {
     policies: K[]
   ) {
     const token = await this.get({ value })
+    if (!token) return null
     return this.dbconn.user.loadUserInfo(token, policies)
   }
 }

@@ -9,7 +9,7 @@
 import { ref } from 'vue'
 import { NSpin } from 'naive-ui'
 import { client } from 'src/api'
-import GroupDetails from './GroupDetails.vue'
+import GroupDetails from '../GroupDetails.vue'
 import type { IGroup } from '@ucenter/server'
 
 const group = ref<IGroup>()

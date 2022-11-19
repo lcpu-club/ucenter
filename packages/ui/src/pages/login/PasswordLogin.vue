@@ -42,13 +42,14 @@ const client = createClient<PasswordAuthDescriptor>(getUrl('/auth/password/'))
 
 async function login() {
   try {
-    const { token } = await client.login.$post
+    const { _id, value } = await client.login.$post
       .body({
         username: username.value,
         password: password.value
       })
       .fetch()
-    localStorage.setItem('authToken', token)
+    localStorage.setItem('authTokenId', _id)
+    localStorage.setItem('authToken', value)
     post('reload')
   } catch (err) {
     notification.error({

@@ -9,7 +9,7 @@
           <UserDetails :user="userInfo" />
         </NTabPane>
         <NTabPane name="group" tab="Group">
-          <MyGroupDetails />
+          <UserGroupDetails />
         </NTabPane>
         <NTabPane name="tokens" tab="Tokens">
           <TokenManager />
@@ -23,6 +23,6 @@
 import { NCard, NTabs, NTabPane } from 'naive-ui'
 import { userInfo } from 'src/api'
 import UserDetails from '../components/UserDetails.vue'
-import MyGroupDetails from 'src/components/MyGroupDetails.vue'
+import UserGroupDetails from 'src/components/user/UserGroupDetails.vue'
 import TokenManager from 'src/components/user/TokenManager.vue'
 </script>

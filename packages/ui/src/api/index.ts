@@ -5,6 +5,7 @@ import { post } from 'src/utils/broadcast'
 import type { RootDescriptor } from '@ucenter/server'
 import { createClient, HandlerFetchError } from 'typeful-fetch'
 
+export const authTokenId = useLocalStorage('authTokenId', '')
 const authToken = useLocalStorage('authToken', '')
 export const isLoggedIn = computed(() => !!authToken.value)
 

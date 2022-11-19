@@ -1,4 +1,5 @@
 import { Type } from '@sinclair/typebox'
+import http from 'http-errors'
 import { apiChain } from './base.js'
 
 export const publicRouter = apiChain.router().handle('POST', '/verify', (C) =>
@@ -17,6 +18,7 @@ export const publicRouter = apiChain.router().handle('POST', '/verify', (C) =>
         req.body.token,
         <never>req.body.policies
       )
+      if (!info) throw http.Unauthorized()
       return info
     })
 )

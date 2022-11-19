@@ -9,7 +9,7 @@ export const userRouter = protectedChain
       return ctx.dbconn.group.get({ _id: ctx.user.group._id })
     })
   )
-  .handle('GET', '/tokens', (C) =>
+  .handle('GET', '/token', (C) =>
     C.handler().handle(async (ctx) => {
       return ctx.dbconn.token.list({ userId: ctx.user._id })
     })
@@ -19,6 +19,7 @@ export const userRouter = protectedChain
       .body(Type.Object({ _id: Type.String() }))
       .handle(async (ctx, req) => {
         await ctx.dbconn.token.collection.deleteOne({ _id: req.body._id })
+        return null
       })
   )
   .handle('POST', '/token', (C) =>
