@@ -1,5 +1,5 @@
 <template>
-  <NButton v-bind="$props" :loading="loading" @click="handleClick">
+  <NButton v-bind="$props" :loading="loading" @click="run">
     <template v-for="(_, slot) in $slots" v-slot:[slot]="scope">
       <slot :name="slot" v-bind="scope || {}" />
     </template>
@@ -7,8 +7,9 @@
 </template>
 
 <script lang="ts">
-import { NButton, useNotification } from 'naive-ui'
-import { defineComponent, ref } from 'vue'
+import { NButton } from 'naive-ui'
+import { defineComponent } from 'vue'
+import { useAsyncTask } from 'src/compose/async'
 
 export default defineComponent({
   name: 'AsyncBtn',
@@ -23,36 +24,9 @@ export default defineComponent({
     }
   },
   setup(props) {
-    const loading = ref(false)
-    const notification = useNotification()
-
-    const handleClick = async () => {
-      loading.value = true
-      try {
-        const result = await props.task()
-        if (typeof result === 'string') {
-          notification.success({
-            content: result,
-            duration: 3000
-          })
-        } else if (result !== false) {
-          notification.success({
-            content: 'Operation succeeded',
-            duration: 3000
-          })
-        }
-      } catch (err) {
-        notification.error({
-          title: 'Error',
-          description: `${err}`
-        })
-      }
-      loading.value = false
-    }
-
+    const task = useAsyncTask(props.task as () => Promise<unknown>)
     return {
-      loading,
-      handleClick
+      ...task
     }
   }
 })

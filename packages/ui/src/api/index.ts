@@ -17,7 +17,7 @@ export const client = createClient<RootDescriptor>(getUrl('/'), () => {
   }
 })
 
-async function getUserInfo() {
+export async function getUserInfo() {
   try {
     return await client.verify.$post
       .body({

@@ -20,9 +20,23 @@ export const router = createRouter({
       component: () => import('src/pages/login/PasswordLogin.vue')
     },
     {
-      name: 'user',
       path: '/user',
-      component: () => import('src/pages/UserPage.vue')
+      component: () => import('src/pages/UserPage.vue'),
+      children: [
+        {
+          name: 'user',
+          path: '',
+          component: () => import('src/pages/user/UserIndex.vue')
+        },
+        {
+          path: 'group',
+          component: () => import('src/pages/user/UserGroup.vue')
+        },
+        {
+          path: 'token',
+          component: () => import('src/pages/user/UserToken.vue')
+        }
+      ]
     }
   ]
 })

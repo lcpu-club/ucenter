@@ -1,28 +1,70 @@
 <template>
   <div class="p-16 w-full flex justify-center items-start">
-    <NCard class="max-w-128">
-      <template #header>
-        <div class="text-2xl font-bold">User</div>
-      </template>
-      <NTabs type="line" animated default-value="details">
-        <NTabPane name="details" tab="Details">
-          <UserDetails :user="userInfo" />
-        </NTabPane>
-        <NTabPane name="group" tab="Group">
-          <UserGroupDetails />
-        </NTabPane>
-        <NTabPane name="tokens" tab="Tokens">
-          <TokenManager />
-        </NTabPane>
-      </NTabs>
-    </NCard>
+    <NLayout class="border">
+      <NLayoutHeader bordered class="p-4">
+        <div class="text-lg">User</div>
+      </NLayoutHeader>
+      <NLayout has-sider>
+        <NLayoutSider bordered width="128">
+          <NMenu :options="menuOptions" />
+        </NLayoutSider>
+        <NLayoutContent class="p-4">
+          <RouterView v-slot="{ Component }">
+            <Transition name="router" mode="out-in">
+              <component :is="Component" />
+            </Transition>
+          </RouterView>
+        </NLayoutContent>
+      </NLayout>
+    </NLayout>
   </div>
 </template>
 
 <script setup lang="ts">
-import { NCard, NTabs, NTabPane } from 'naive-ui'
-import { userInfo } from 'src/api'
-import UserDetails from '../components/UserDetails.vue'
-import UserGroupDetails from 'src/components/user/UserGroupDetails.vue'
-import TokenManager from 'src/components/user/TokenManager.vue'
+import { h } from 'vue'
+import { RouterLink } from 'vue-router'
+import {
+  NLayout,
+  NLayoutHeader,
+  NLayoutSider,
+  NMenu,
+  MenuOption,
+  NLayoutContent
+} from 'naive-ui'
+
+const menuOptions: MenuOption[] = [
+  {
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: '/user/'
+        },
+        () => 'Info'
+      ),
+    key: 'info'
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: '/user/group'
+        },
+        () => 'Group'
+      ),
+    key: 'group'
+  },
+  {
+    label: () =>
+      h(
+        RouterLink,
+        {
+          to: '/user/token'
+        },
+        () => 'Token'
+      ),
+    key: 'token'
+  }
+]
 </script>

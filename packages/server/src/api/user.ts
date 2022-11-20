@@ -1,6 +1,7 @@
 import { Type } from '@sinclair/typebox'
 import http from 'http-errors'
 import { protectedChain } from './base.js'
+import { check } from '../util/index.js'
 
 export const userRouter = protectedChain
   .router()
@@ -40,24 +41,39 @@ export const userRouter = protectedChain
         return value
       })
   )
+  .handle('GET', '/attribute', (C) =>
+    C.handler().handle(async (ctx) => {
+      return ctx.user.attributes
+    })
+  )
   .handle('PUT', '/attribute', (C) =>
     C.handler()
-      .body(
-        Type.Object({
-          key: Type.String(),
-          value: Type.Any()
-        })
-      )
+      .body(Type.Record(Type.String(), Type.Any()))
       .handle(async (ctx, req) => {
-        const { key, value } = req.body
-        const info = ctx.app.contributions.userAttributes.get(key)
-        if (!info || !info.allowUserEdit) throw http.BadRequest()
-        // TODO: Type check the value
+        const entries = Object.entries(req.body)
+        for (const [k, v] of entries) {
+          const info = ctx.app.contributions.userAttributes.get(k)
+          if (!info || !info.allowUserEdit) throw http.BadRequest()
+          if (!check(info.schema, v)) throw http.BadRequest()
+        }
         await ctx.dbconn.user.collection.updateOne(
           { _id: ctx.user._id },
           {
-            $set: { [`attributes.${key}`]: value }
+            $set: Object.fromEntries(
+              entries.map(([k, v]) => [`attributes.${k}`, v])
+            )
           }
         )
+        return null
       })
+  )
+  .handle('GET', '/user_attributes', (C) =>
+    C.handler().handle(async (ctx) => {
+      return ctx.app.contributions.userAttributes.contributions
+    })
+  )
+  .handle('GET', '/group_attributes', (C) =>
+    C.handler().handle(async (ctx) => {
+      return ctx.app.contributions.groupAttributes.contributions
+    })
   )

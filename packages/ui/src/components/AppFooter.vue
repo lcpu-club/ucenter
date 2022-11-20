@@ -2,12 +2,23 @@
   <NLayoutFooter
     bordered
     position="absolute"
-    class="h-8 flex items-center justify-center"
+    class="px-4 h-8 flex items-center justify-between"
   >
-    Linux Club of Peking University
+    <div>Linux Club of Peking University</div>
+    <a
+      class="flex items-center"
+      href="https://github.com/lcpu-club/ucenter"
+      target="_blank"
+    >
+      <NIcon size="24">
+        <UIcon :path="mdiGithub" />
+      </NIcon>
+    </a>
   </NLayoutFooter>
 </template>
 
 <script setup lang="ts">
-import { NLayoutFooter } from 'naive-ui'
+import { NLayoutFooter, NIcon } from 'naive-ui'
+import UIcon from 'src/components/UIcon.vue'
+import { mdiGithub } from '@mdi/js'
 </script>
