@@ -14,10 +14,7 @@ export abstract class Initable {
    * Initialize the object
    * Override this method to control initialization
    */
-  async init(): Promise<void> {
-    if (this._initialized) return
-    this._initialized = true
-    this.logger.info(`Initializing ${getClassName(this)}`)
+  async _init(): Promise<void> {
     await this.setup()
     for (const descriptor of Object.values(
       Object.getOwnPropertyDescriptors(this)
@@ -27,6 +24,13 @@ export abstract class Initable {
         await descriptor.value.init()
       }
     }
+  }
+
+  async init(): Promise<void> {
+    if (this._initialized) return
+    this._initialized = true
+    this.logger.info(`Initializing ${getClassName(this)}`)
+    await this._init()
   }
 
   /**

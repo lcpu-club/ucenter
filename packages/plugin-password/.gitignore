@@ -1,0 +1,4 @@
+# TypeScript build
+/lib
+plugins/**/*
+!plugins/.gitkeep

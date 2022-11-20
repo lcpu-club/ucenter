@@ -3,12 +3,12 @@ import { rootRouter } from './api/index.js'
 
 export type RootDescriptor = GetRouterDescriptor<typeof rootRouter>
 
-export { App } from './app.js'
-export { Plugin } from './plugin/index.js'
-export { IUser, IGroup, IToken, ISystem } from './db/index.js'
-export {
-  IUserAuthSources,
-  IUserAttributes,
-  IGroupAttributes,
-  IGroupPolicies
-} from './contribution/index.js'
+export * from './app.js'
+export * from './api/index.js'
+export * from './config/index.js'
+export * from './contribution/index.js'
+export * from './db/index.js'
+export * from './hook/index.js'
+export * from './plugin/index.js'
+export * from './script/index.js'
+export * from './util/index.js'

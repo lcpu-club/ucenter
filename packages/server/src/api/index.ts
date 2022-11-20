@@ -7,3 +7,5 @@ export const rootRouter = rootBuilder
   .route('/admin', adminRouter)
   .route('/user', userRouter)
   .route('/', publicRouter)
+
+export * from './base.js'

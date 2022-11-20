@@ -1,0 +1,26 @@
+{
+  "name": "@ucenter/plugin-password",
+  "private": true,
+  "version": "0.0.1",
+  "description": "uCenter plugin for password login",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lcpu-club/ucenter.git",
+    "directory": "packages/plugin-password"
+  },
+  "bugs": {
+    "url": "https://github.com/lcpu-club/ucenter/issues"
+  },
+  "license": "AGPL-3.0",
+  "type": "module",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "peerDependencies": {
+    "@ucenter/server": "*"
+  },
+  "dependencies": {
+    "bcrypt": "^5.1.0"
+  }
+}

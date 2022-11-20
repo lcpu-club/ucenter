@@ -1,0 +1,27 @@
+{
+  "name": "@ucenter/plugin-swagger",
+  "private": true,
+  "version": "0.0.1",
+  "description": "uCenter plugin for swagger",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lcpu-club/ucenter.git",
+    "directory": "packages/plugin-swagger"
+  },
+  "bugs": {
+    "url": "https://github.com/lcpu-club/ucenter/issues"
+  },
+  "license": "AGPL-3.0",
+  "type": "module",
+  "main": "lib/index.js",
+  "scripts": {
+    "build": "tsc"
+  },
+  "dependencies": {
+    "@fastify/swagger": "^8.1.0",
+    "@fastify/swagger-ui": "^1.2.0"
+  },
+  "peerDependencies": {
+    "@ucenter/server": "*"
+  }
+}

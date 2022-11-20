@@ -1,0 +1,20 @@
+{
+  "name": "@ucenter/plugin-common-scripts",
+  "private": true,
+  "version": "0.0.1",
+  "description": "uCenter plugin for common scripts",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/lcpu-club/ucenter.git",
+    "directory": "packages/plugin-common-scripts"
+  },
+  "bugs": {
+    "url": "https://github.com/lcpu-club/ucenter/issues"
+  },
+  "license": "AGPL-3.0",
+  "type": "module",
+  "main": "lib/index.js",
+  "peerDependencies": {
+    "@ucenter/server": "*"
+  }
+}

@@ -1,6 +1,5 @@
 import { join } from 'path'
 import type { IAppOptions } from '../app.js'
-import type { ICliAppOptions } from '../cli/app.js'
 import { APP_ROOT } from '../util/misc.js'
 
 const PREFIX = 'CENTER_'
@@ -21,7 +20,7 @@ const num = factory((x) => parseInt(x, 10))
 const bool = factory((x) => x === 'true')
 const json = factory((x) => JSON.parse(x))
 
-export const CONFIG: IAppOptions & ICliAppOptions = {
+export const CONFIG: IAppOptions = {
   db: {
     uri: str('MONGO_URI', 'mongodb://localhost:27017/ucenter')
   },

@@ -2,6 +2,7 @@
   "name": "ucenter-workspace",
   "version": "0.0.1",
   "description": "uCenter Monorepo",
+  "packageManager": "yarn@3.3.0",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/lcpu-club/ucenter.git"
@@ -15,8 +16,33 @@
     "packages/*"
   ],
   "devDependencies": {
-    "eslint": "^8.25.0",
+    "@types/bcrypt": "^5.0.0",
+    "@types/crypto-js": "^4.1.1",
+    "@types/fs-extra": "^9.0.13",
+    "@types/http-errors": "^2.0.1",
+    "@types/minimist": "^1.2.2",
+    "@types/node": "^18.11.0",
+    "@types/prompts": "^2.4.1",
+    "@typescript-eslint/eslint-plugin": "^5.40.0",
+    "@typescript-eslint/parser": "^5.40.0",
+    "@vitejs/plugin-vue": "^3.1.0",
+    "eslint": "^8.28.0",
+    "eslint-plugin-vue": "^9.6.0",
     "prettier": "^2.7.1",
-    "typescript": "^4.8.4"
+    "rimraf": "^3.0.2",
+    "typeful-fetch": "^0.1.1",
+    "typescript": "^4.8.4",
+    "vite": "^3.1.0",
+    "vite-plugin-windicss": "^1.8.8",
+    "vue-tsc": "^1.0.9",
+    "windicss": "^3.5.6"
+  },
+  "scripts": {
+    "ts:build": "cd $INIT_CWD && tsc",
+    "ts:clean": "cd $INIT_CWD && rimraf .tsbuildinfo lib",
+    "vite:dev": "cd $INIT_CWD && vite",
+    "vite:build": "cd $INIT_CWD && vite build",
+    "vite:preview": "cd $INIT_CWD && vite preview",
+    "vue-ts:check": "cd $INIT_CWD && vue-tsc --noEmit"
   }
 }

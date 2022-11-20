@@ -4,14 +4,14 @@ WORKDIR /app
 
 FROM base as workspace
 COPY . .
-RUN  yarn
+RUN  corepack yarn
 
-FROM workspace AS center-builder
-RUN  yarn workspace @ucenter/center build
+FROM workspace AS server-builder
+RUN  corepack yarn workspace @ucenter/server build
 
-FROM base AS center
-COPY --from=center-builder /app/packages/center/lib          /app/lib
-COPY --from=center-builder /app/packages/center/public       /app/public
-COPY --from=center-builder /app/packages/center/package.json /app/package.json
+FROM base AS server
+COPY --from=server-builder /app/packages/server/lib          /app/lib
+COPY --from=server-builder /app/packages/server/public       /app/public
+COPY --from=server-builder /app/packages/server/package.json /app/package.json
 RUN  yarn --production
 CMD  yarn start
