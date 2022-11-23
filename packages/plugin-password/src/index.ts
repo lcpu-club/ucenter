@@ -23,7 +23,7 @@ const router = rootChain.router().handle('POST', '/login', (C) =>
     .handle(async ({ dbconn }, req) => {
       const { username, password } = req.body
       const user = await dbconn.user.collection.findOne(
-        { 'attributes.username': username },
+        { 'attributes.name': username },
         {
           projection: {
             _id: 1,
@@ -56,7 +56,7 @@ const plugin: Plugin = (hooks) => {
     scripts.addScript('password:set-password', async (app) => {
       const username = await askString('Username')
       const user = await app.dbconn.user.collection.findOne(
-        { 'attributes.username': username },
+        { 'attributes.name': username },
         { projection: { _id: 1 } }
       )
       if (!user) {
@@ -70,7 +70,7 @@ const plugin: Plugin = (hooks) => {
   })
   hooks.hook('post-dbconn-setup', async ({ dbconn }) => {
     await dbconn.user.collection.createIndex(
-      { 'attributes.username': 1 },
+      { 'attributes.name': 1 },
       { unique: true }
     )
   })

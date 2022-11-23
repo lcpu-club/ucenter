@@ -1,7 +1,7 @@
 <template>
   <NSpace align="center">
     <RouterLink to="/user" v-if="userInfo">
-      {{ userInfo.attributes.nickname ?? userInfo.attributes.username }}
+      {{ userInfo.attributes.nickname ?? userInfo.attributes.name }}
     </RouterLink>
     <NButton @click="logout" type="error" ghost>Logout</NButton>
   </NSpace>

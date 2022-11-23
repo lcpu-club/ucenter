@@ -1,4 +1,5 @@
 import { Filter } from 'mongodb'
+import { nanoid } from 'nanoid'
 import { IGroupAttributes, IGroupPolicies } from '../contribution/index.js'
 import { Initable } from '../util/index.js'
 import { DbConn } from './index.js'
@@ -26,8 +27,14 @@ export class GroupManager extends Initable {
     return this.collection.find(where).toArray()
   }
 
-  async create(_id: string, policies: Partial<IGroupPolicies> = {}) {
-    await this.collection.insertOne({ _id, attributes: {}, policies })
+  async create(name: string, policies: Partial<IGroupPolicies> = {}) {
+    const _id = nanoid()
+    await this.collection.insertOne({
+      _id,
+      attributes: { name },
+      policies
+    })
+    return _id
   }
 
   async remove(_id: string) {

@@ -34,15 +34,17 @@ export class UserManager extends Initable {
     this.collection = dbconn.db.collection<IUser>('user')
   }
 
-  async create(username: string, groupId: string) {
+  async create(
+    name: string,
+    groupId: string,
+    authSources: Partial<IUserAuthSources> = {}
+  ) {
     const _id = nanoid()
     await this.collection.insertOne({
       _id,
       groupId,
-      attributes: {
-        username
-      },
-      authSources: {}
+      attributes: { name },
+      authSources
     })
     return _id
   }

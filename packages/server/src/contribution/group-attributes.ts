@@ -15,7 +15,7 @@ export class GroupAttributes extends ContributionPoint<
     super()
     this.set('name', {
       schema: Type.String(),
-      description: 'Username'
+      description: 'Group name'
     })
   }
 }

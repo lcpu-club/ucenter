@@ -5,7 +5,7 @@
       <div class="text-2xl">Dead simple user center</div>
       <div v-if="isLoggedIn">
         Welcome,
-        {{ userInfo.attributes.nickname ?? userInfo.attributes.username }}
+        {{ userInfo.attributes.nickname ?? userInfo.attributes.name }}
       </div>
       <div v-else>Login to get started</div>
     </div>

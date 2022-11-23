@@ -8,7 +8,7 @@ import { UserAuthSources } from './user-auth-sources.js'
 export interface IUserAuthSources {}
 
 export interface IUserAttributes {
-  username: string
+  name: string
   nickname: string
   email: string
 }

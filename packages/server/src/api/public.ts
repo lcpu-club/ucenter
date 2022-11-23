@@ -14,7 +14,7 @@ export const publicRouter = apiChain.router().handle('POST', '/verify', (C) =>
       })
     )
     .handle(async (ctx, req) => {
-      const info = ctx.dbconn.token.loadUserInfo(
+      const info = await ctx.dbconn.token.loadUserInfo(
         req.body.token,
         <never>req.body.policies
       )

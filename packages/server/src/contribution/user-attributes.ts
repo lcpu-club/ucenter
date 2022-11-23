@@ -14,7 +14,7 @@ export class UserAttributes extends ContributionPoint<
 > {
   constructor() {
     super()
-    this.set('username', {
+    this.set('name', {
       schema: Type.String({ minLength: 5, maxLength: 32 }),
       allowUserEdit: true,
       description: 'Username'
