@@ -118,3 +118,6 @@ dist
 *.sw?
 
 .yarn
+
+/external/**/*
+!/external/.gitkeep

@@ -6,6 +6,8 @@ export const APP_ROOT = normalize(
   join(dirname(fileURLToPath(import.meta.url)), '..', '..')
 )
 
+export const WORKSPACE_ROOT = normalize(join(APP_ROOT, '..', '..'))
+
 export const PACKAGE_JSON = await fs.readJSONSync(
   join(APP_ROOT, 'package.json')
 )

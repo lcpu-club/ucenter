@@ -1,26 +1,38 @@
-import { join } from 'path'
+import { createRequire } from 'module'
+import { join, normalize } from 'path'
 import { Logger } from 'pino'
 import { HookManager } from '../hook/index.js'
-import { APP_ROOT, Initable } from '../util/index.js'
+import { APP_ROOT, Initable, WORKSPACE_ROOT } from '../util/index.js'
 
 export type Plugin = (hooks: HookManager) => void | Promise<void>
 
-async function tryImport(path: string): Promise<unknown> {
+const externalRequire = createRequire(
+  normalize(join(WORKSPACE_ROOT, 'external', 'virtual-resolver.js'))
+)
+const pluginsRequire = createRequire(
+  normalize(join(APP_ROOT, 'plugins', 'virtual-resolver.js'))
+)
+
+async function tryImport(id: string, require?: NodeRequire): Promise<unknown> {
   try {
-    return await import(path)
+    id = require ? require.resolve(id) : id
+    return await import(id)
   } catch (err) {
     return null
   }
 }
 
-async function loadPlugin(path: string): Promise<Plugin> {
+async function loadPlugin(id: string, external?: boolean): Promise<Plugin> {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  let plugin: any = await tryImport(path)
-  plugin ??= await tryImport(join(APP_ROOT, 'plugins', path, 'lib', 'index.js'))
-  plugin ??= await tryImport(join(APP_ROOT, 'plugins', path, 'index.js'))
-  plugin ??= await tryImport(`./${path}.js`)
+  let plugin: any = await tryImport(id)
+  if (external) {
+    plugin ??= await tryImport(`./${id}`, externalRequire)
+    plugin ??= await tryImport(id, externalRequire)
+  }
+  plugin ??= await tryImport(`./${id}`, pluginsRequire)
+  plugin ??= await tryImport(id, pluginsRequire)
   if (plugin) return plugin.default as Plugin
-  throw new Error(`Could not load plugin ${path}`)
+  throw new Error(`Could not load plugin ${id}`)
 }
 
 export interface IPluginManagerInjects {
@@ -29,6 +41,7 @@ export interface IPluginManagerInjects {
 }
 
 export interface IPluginManagerOptions {
+  external: boolean
   plugins: string[]
 }
 
@@ -43,10 +56,10 @@ export class PluginManager extends Initable {
   }
 
   async setup() {
-    for (const path of this.options.plugins) {
-      const plugin = await loadPlugin(path)
+    for (const id of this.options.plugins) {
+      const plugin = await loadPlugin(id, this.options.external)
       await plugin(this.injects.hooks)
-      this.logger.info(`Loaded plugin ${path}`)
+      this.logger.info(`Loaded plugin ${id}`)
     }
   }
 }

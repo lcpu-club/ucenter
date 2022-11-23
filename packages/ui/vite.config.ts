@@ -9,7 +9,8 @@ export default defineConfig({
   resolve: {
     alias: {
       src: join(__dirname, 'src'),
-      app: __dirname
+      app: __dirname,
+      root: join(__dirname, '..', '..')
     }
   },
   build: {

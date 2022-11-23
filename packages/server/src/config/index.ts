@@ -25,6 +25,7 @@ export const CONFIG: IAppOptions = {
     uri: str('MONGO_URI', 'mongodb://localhost:27017/ucenter')
   },
   plugins: {
+    external: bool('PLUGINS_EXTERNAL', false),
     plugins: json('PLUGINS', ['rest', 'password-auth'])
   },
   openapi: bool('OPENAPI', false),
