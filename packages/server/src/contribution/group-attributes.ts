@@ -3,8 +3,8 @@ import { ContributionPoint } from './base.js'
 import { IGroupAttributes } from './index.js'
 
 export interface IGroupAttributesMeta {
-  schema: TSchema
   description: string
+  schema: TSchema
 }
 
 export class GroupAttributes extends ContributionPoint<

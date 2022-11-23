@@ -16,6 +16,11 @@ export const router = createRouter({
       component: () => import('src/pages/LoginPage.vue')
     },
     {
+      name: 'about',
+      path: '/about',
+      component: () => import('src/pages/AboutPage.vue')
+    },
+    {
       path: '/user',
       component: () => import('src/pages/UserPage.vue'),
       children: [
@@ -33,6 +38,30 @@ export const router = createRouter({
           component: () => import('src/pages/user/UserToken.vue')
         },
         ...additional('userRoutes')
+      ]
+    },
+    {
+      path: '/admin',
+      component: () => import('src/pages/AdminPage.vue'),
+      children: [
+        {
+          name: 'admin',
+          path: '',
+          component: () => import('src/pages/admin/AdminIndex.vue')
+        },
+        ...additional('adminRoutes')
+      ]
+    },
+    {
+      path: '/about',
+      component: () => import('src/pages/AboutPage.vue'),
+      children: [
+        {
+          name: 'about',
+          path: '',
+          component: () => import('src/pages/about/AboutIndex.vue')
+        },
+        ...additional('aboutRoutes')
       ]
     },
     ...additional('routes')

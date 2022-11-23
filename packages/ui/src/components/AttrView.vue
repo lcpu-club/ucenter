@@ -15,7 +15,12 @@
     <tbody>
       <slot name="before" />
       <tr v-for="key of keys" :key="key">
-        <td class="w-2">{{ key }}</td>
+        <td v-if="props.useI18n">
+          {{ $t(key) }}
+        </td>
+        <td v-else>
+          <code>{{ key }}</code>
+        </td>
         <template v-if="edit">
           <td>
             <SchemaInput
@@ -60,6 +65,7 @@ const props = defineProps<{
   attrs: Attrs
   props: Record<string, IAttrProp>
   readonly?: boolean
+  useI18n?: boolean
 }>()
 
 const emits = defineEmits<{

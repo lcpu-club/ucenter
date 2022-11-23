@@ -79,7 +79,10 @@ async function getTokens() {
 }
 
 function deleteToken(_id: string) {
-  return () => client.user.token.$delete.body({ _id }).fetch()
+  return async () => {
+    await client.user.token.$delete.body({ _id }).fetch()
+    tokens.value = await getTokens()
+  }
 }
 
 const tokens = ref<Awaited<ReturnType<typeof getTokens>>>([])

@@ -3,9 +3,9 @@ import { ContributionPoint } from './base.js'
 import { IUserAttributes } from './index.js'
 
 export interface IUserAttributesMeta {
-  schema: TSchema
-  allowUserEdit: boolean
   description: string
+  allowUserEdit: boolean
+  schema: TSchema
 }
 
 export class UserAttributes extends ContributionPoint<

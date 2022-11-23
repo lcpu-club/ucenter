@@ -77,3 +77,8 @@ export const userRouter = protectedChain
       return ctx.app.contributions.groupAttributes.contributions
     })
   )
+  .handle('GET', '/group_policies', (C) =>
+    C.handler().handle(async (ctx) => {
+      return ctx.app.contributions.groupPolicies.contributions
+    })
+  )

@@ -1,6 +1,8 @@
 <template>
-  <div class="pr-2">
-    <NButton @click="changeLocale">{{ t(locale) }}</NButton>
+  <div class="pl-2">
+    <NButton @click="changeLocale" type="info" ghost>
+      {{ t(locale) }}
+    </NButton>
   </div>
 </template>
 

@@ -7,10 +7,11 @@
         title="User Info"
         :attrs="userInfo.attributes ?? {}"
         :props="info.state.value.attrs"
+        use-i18n
         @update="update"
       >
         <template #before>
-          <td class="w-2">ID</td>
+          <td class="w-24">ID</td>
           <td>
             <code>{{ userInfo._id }}</code>
           </td>
