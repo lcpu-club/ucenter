@@ -1,6 +1,5 @@
 {
   "name": "@ucenter/server",
-  "private": true,
   "version": "0.0.1",
   "description": "uCenter server",
   "repository": {
