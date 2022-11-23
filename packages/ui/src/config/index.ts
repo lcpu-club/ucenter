@@ -1,3 +1,5 @@
+import { additional } from 'src/plugin/list'
+
 export interface IBrand {
   icon: string
   href: string
@@ -20,24 +22,13 @@ export const config: IRuntimeConfig = {
     icon: '/ucenter-text.svg',
     href: '/'
   },
-  baseUrl: window.location.pathname,
-  loginMethods: [
-    { name: 'Password', target: '/login/password' }
-    // More login methods here
-  ]
+  baseUrl: import.meta.env.VITE_API_BASE_URL,
+  loginMethods: [...additional('loginMethods')]
 }
 
-export function getUrl(path: string) {
+export function resolveUrl(path: string) {
   let base = config.baseUrl
   if (base.endsWith('/')) base = base.slice(0, -1)
   if (path.startsWith('/')) path = path.slice(1)
   return base + '/' + path
-}
-
-try {
-  const resp = await fetch('config.json')
-  const data = await resp.json()
-  Object.assign(config, data)
-} catch (err) {
-  console.log(err)
 }

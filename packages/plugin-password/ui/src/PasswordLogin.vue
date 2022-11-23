@@ -29,16 +29,18 @@
 import { NCard, NSpace, NInput, NButton, useNotification } from 'naive-ui'
 import { ref } from 'vue'
 import { createClient } from 'typeful-fetch'
-import { getUrl } from 'src/config'
-import { post } from 'src/utils/broadcast'
-import type { PasswordAuthDescriptor } from '@ucenter/server/lib/plugin/password-auth'
+import { resolveUrl } from '@ucenter/ui/src/config'
+import { post } from '@ucenter/ui/src/utils/broadcast'
+import type { PasswordAuthDescriptor } from '../../src'
 
 const notification = useNotification()
 
 const username = ref('')
 const password = ref('')
 
-const client = createClient<PasswordAuthDescriptor>(getUrl('/auth/password/'))
+const client = createClient<PasswordAuthDescriptor>(
+  resolveUrl('/auth/password/')
+)
 
 async function login() {
   try {

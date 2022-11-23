@@ -1,6 +1,6 @@
 import { useLocalStorage } from '@vueuse/core'
 import { computed } from 'vue'
-import { getUrl } from 'src/config'
+import { resolveUrl } from 'src/config'
 import { post } from 'src/utils/broadcast'
 import type { RootDescriptor } from '@ucenter/server'
 import { createClient, HandlerFetchError } from 'typeful-fetch'
@@ -9,7 +9,7 @@ export const authTokenId = useLocalStorage('authTokenId', '')
 const authToken = useLocalStorage('authToken', '')
 export const isLoggedIn = computed(() => !!authToken.value)
 
-export const client = createClient<RootDescriptor>(getUrl('/'), () => {
+export const client = createClient<RootDescriptor>(resolveUrl('/'), () => {
   return {
     headers: {
       'x-auth-token': authToken.value

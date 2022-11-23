@@ -31,6 +31,7 @@ import {
   MenuOption,
   NLayoutContent
 } from 'naive-ui'
+import { additional } from 'src/plugin/list'
 
 const menuOptions: MenuOption[] = [
   {
@@ -65,6 +66,7 @@ const menuOptions: MenuOption[] = [
         () => 'Token'
       ),
     key: 'token'
-  }
+  },
+  ...additional('userMenu')
 ]
 </script>

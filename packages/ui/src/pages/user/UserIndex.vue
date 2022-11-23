@@ -14,8 +14,8 @@
           <td>
             <code>{{ userInfo._id }}</code>
           </td>
-        </template></AttrView
-      >
+        </template>
+      </AttrView>
     </NSpin>
   </div>
 </template>
