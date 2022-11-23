@@ -28,7 +28,6 @@ export const CONFIG: IAppOptions = {
     external: bool('PLUGINS_EXTERNAL', false),
     plugins: json('PLUGINS', ['rest', 'password-auth'])
   },
-  openapi: bool('OPENAPI', false),
   port: num('SERVER_PORT', 3000),
   host: str('SERVER_HOST', '127.0.0.1'),
   cors: json('SERVER_CORS', { origin: true }),

@@ -31,7 +31,6 @@ declare module 'fastify' {
 export interface IAppOptions {
   db: IDbConnOptions
   plugins: IPluginManagerOptions
-  openapi: boolean
   cors: FastifyCorsOptions
   host: string
   port: number
