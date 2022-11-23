@@ -1,6 +1,7 @@
 import { definePlugin } from '@ucenter/ui/src/plugin'
 import { h } from 'vue'
 import { RouterLink } from 'vue-router'
+import { useI18n } from 'vue-i18n'
 
 export default definePlugin({
   name: 'password',
@@ -13,18 +14,32 @@ export default definePlugin({
   ],
   loginMethods: [
     // Password login
-    { name: 'Password', target: '/login/password' }
+    { name: 'login-by-password', target: '/login/password' }
   ],
-  userMenu: [
-    {
-      key: 'password',
-      label: () => h(RouterLink, { to: '/user/password' }, () => 'Password')
-    }
-  ],
+  userMenu: () => {
+    const { t } = useI18n()
+    return [
+      {
+        key: 'password',
+        label: () =>
+          h(RouterLink, { to: '/user/password' }, () => t('password'))
+      }
+    ]
+  },
   userRoutes: [
     {
       path: 'password',
       component: () => import('./UserPassword.vue')
     }
-  ]
+  ],
+  locales: {
+    en: {
+      password: 'Password',
+      'login-by-password': 'Password'
+    },
+    zh: {
+      password: '密码',
+      'login-by-password': '密码登录'
+    }
+  }
 })

@@ -5,6 +5,7 @@
     </a>
     <NMenu mode="horizontal" :options="menuOptions" />
     <SpaceHelper />
+    <LocaleIndicator />
     <UserIndicator />
   </NLayoutHeader>
 </template>
@@ -12,9 +13,10 @@
 <script setup lang="ts">
 import { NLayoutHeader, NMenu, MenuOption } from 'naive-ui'
 import { config } from 'src/config'
-import { additional } from 'src/plugin/list'
+import { additionalFn } from 'src/plugin/list'
 import { h } from 'vue'
 import { RouterLink } from 'vue-router'
+import LocaleIndicator from './LocaleIndicator.vue'
 import SpaceHelper from './SpaceHelper.vue'
 import UserIndicator from './UserIndicator.vue'
 
@@ -23,7 +25,7 @@ const menuOptions: MenuOption[] = [
     key: 'user-center',
     label: () => h(RouterLink, { to: '/' }, () => 'User Center')
   },
-  ...additional('mainMenu')
+  ...additionalFn('mainMenu')
 ]
 </script>
 

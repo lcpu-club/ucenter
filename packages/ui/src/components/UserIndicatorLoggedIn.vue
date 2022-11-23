@@ -3,7 +3,7 @@
     <RouterLink to="/user" v-if="userInfo">
       {{ userInfo.attributes.nickname ?? userInfo.attributes.name }}
     </RouterLink>
-    <NButton @click="logout" type="error" ghost>Logout</NButton>
+    <NButton @click="logout" type="error" ghost>{{ $t('logout') }}</NButton>
   </NSpace>
 </template>
 

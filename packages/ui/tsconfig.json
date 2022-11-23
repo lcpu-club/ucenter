@@ -16,7 +16,8 @@
     ],
     "skipLibCheck": true,
     "types": [
-      "naive-ui/volar"
+      "naive-ui/volar",
+      "@intlify/vite-plugin-vue-i18n/client"
     ],
     "baseUrl": ".",
     "paths": {

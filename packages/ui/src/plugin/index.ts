@@ -7,8 +7,9 @@ export interface UIPlugin {
   routes?: RouteRecordRaw[]
   userRoutes?: RouteRecordRaw[]
   loginMethods?: ILoginMethod[]
-  mainMenu?: MenuOption[]
-  userMenu?: MenuOption[]
+  locales?: Record<string, Record<string, string>>
+  mainMenu?: () => MenuOption[]
+  userMenu?: () => MenuOption[]
 }
 
 export function definePlugin(plugin: UIPlugin): UIPlugin {
