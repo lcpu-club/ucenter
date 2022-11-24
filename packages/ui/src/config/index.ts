@@ -19,8 +19,8 @@ export interface IRuntimeConfig {
 
 export const config: IRuntimeConfig = {
   brand: {
-    icon: import.meta.env.VITE_BRAND_ICON ?? '/ucenter-text.svg',
-    href: import.meta.env.VITE_BRAND_HREF ?? '/'
+    icon: import.meta.env.VITE_BRAND_ICON,
+    href: import.meta.env.VITE_BRAND_HREF
   },
   baseUrl: import.meta.env.VITE_API_BASE_URL,
   loginMethods: [...additional('loginMethods')]

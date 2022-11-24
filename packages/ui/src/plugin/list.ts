@@ -32,3 +32,10 @@ export function additionalFn<T extends keyof UIPluginArrayFnSub>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   return plugins.flatMap((plugin: any) => (plugin[key] ?? (() => []))())
 }
+
+export function reduced<T extends keyof UIPlugin>(
+  key: T,
+  initial: NonNullable<UIPlugin[T]>
+): NonNullable<UIPlugin[T]> {
+  return plugins.reduce((acc, plugin) => plugin[key] ?? acc, initial)
+}

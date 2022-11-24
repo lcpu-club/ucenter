@@ -1,9 +1,24 @@
+import { config } from 'dotenv'
 import { defineConfig } from 'vite'
 import { join } from 'path'
 import vue from '@vitejs/plugin-vue'
 import vueI18n from '@intlify/vite-plugin-vue-i18n'
 import WindiCSS from 'vite-plugin-windicss'
 import { pluginLoader } from './build/plugin-loader'
+
+config()
+
+function checkEnv(name: string, value?: string) {
+  if (!value && !process.env[name]) throw new Error(`Missing env ${name}`)
+  process.env[name] ??= value
+}
+
+checkEnv('VITE_API_BASE_URL')
+checkEnv('VITE_BRAND_ICON', '/ucenter-text.svg')
+checkEnv('VITE_BRAND_HREF', '/')
+checkEnv('VITE_GRAVATAR_URL', 'https://www.gravatar.com/avatar/')
+checkEnv('VITE_DEFAULT_LOCALE', 'en')
+checkEnv('VITE_FOOTER_TEXT_LEFT', 'Linux Club of Peking University')
 
 export default defineConfig({
   plugins: [

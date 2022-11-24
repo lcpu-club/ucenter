@@ -4,6 +4,7 @@ import { MenuOption } from 'naive-ui'
 
 export interface UIPlugin {
   name: string
+  index?: NonNullable<RouteRecordRaw['component']>
   routes?: RouteRecordRaw[]
   userRoutes?: RouteRecordRaw[]
   adminRoutes?: RouteRecordRaw[]

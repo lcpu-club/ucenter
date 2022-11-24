@@ -1,5 +1,5 @@
 import { isLoggedIn, userInfo } from 'src/api'
-import { additional } from 'src/plugin/list'
+import { additional, reduced } from 'src/plugin/list'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 export const router = createRouter({
@@ -8,7 +8,7 @@ export const router = createRouter({
     {
       name: 'index',
       path: '/',
-      component: () => import('src/pages/IndexPage.vue')
+      component: reduced('index', () => import('src/pages/IndexPage.vue'))
     },
     {
       name: 'login',

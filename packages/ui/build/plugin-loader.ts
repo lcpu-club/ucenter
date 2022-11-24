@@ -1,5 +1,4 @@
 import { Plugin } from 'vite'
-import dotenv from 'dotenv'
 import { createRequire } from 'module'
 
 const require = createRequire(import.meta.url)
@@ -39,7 +38,6 @@ function generatePluginsModule(ctx: IPluginLoaderContext): string {
 }
 
 export function pluginLoader(): Plugin {
-  dotenv.config()
   const targets = JSON.parse(process.env.UI_PLUGINS ?? '[]')
   if (!(targets instanceof Array))
     throw new Error('UI_PLUGINS must be an array')

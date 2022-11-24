@@ -1,6 +1,6 @@
 import md5 from 'crypto-js/md5'
 
-const gravatarUrl = 'https://www.gravatar.com/avatar/'
+const gravatarUrl = import.meta.env.VITE_GRAVATAR_URL
 
 export function gravatar(email: string, size = 80) {
   if (!email) return ''

@@ -4,7 +4,7 @@ import plugins from 'src/plugin/list'
 
 export const lang = useLocalStorage(
   'locale',
-  import.meta.env.VITE_DEFAULT_LOCALE ?? 'en'
+  import.meta.env.VITE_DEFAULT_LOCALE
 )
 
 export const mergedMessages = [
