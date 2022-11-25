@@ -4,7 +4,7 @@ import swagger from '@fastify/swagger'
 
 const plugin: Plugin = (hooks) => {
   hooks.hook('pre-server-setup', async (app) => {
-    await app.server.register(swagger, {
+    await app.server.register(swagger.default, {
       openapi: {
         info: {
           title: 'UCenter Server',
@@ -13,7 +13,7 @@ const plugin: Plugin = (hooks) => {
         }
       }
     })
-    await app.server.register(ui, {
+    await app.server.register(ui.default, {
       routePrefix: '/docs'
     })
   })

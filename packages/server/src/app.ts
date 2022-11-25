@@ -48,7 +48,7 @@ export class App extends Initable {
   scripts
 
   constructor(public options: IAppOptions) {
-    const logger = pino()
+    const logger = pino.default()
     super(logger)
     this.contributions = new ContributionManager()
     this.hooks = new HookManager({ logger })
@@ -57,7 +57,7 @@ export class App extends Initable {
       { logger, hooks: this.hooks },
       options.plugins
     )
-    const server = fastify({ logger, trustProxy: options.trustProxy })
+    const server = fastify.default({ logger, trustProxy: options.trustProxy })
     this.server = server.withTypeProvider<TypeBoxTypeProvider>()
     this.server.decorate('app', this as App)
     this.scripts = new ScriptManager({ logger })
@@ -74,7 +74,7 @@ export class App extends Initable {
   async start() {
     await this.init()
     await this.hooks.fire('pre-server-setup', this)
-    await this.server.register(fastifyCors, this.options.cors)
+    await this.server.register(fastifyCors.default, this.options.cors)
     await this.server.register(rootRouter.toPlugin())
     await this.server.register(fastifyStatic, {
       root: this.options.static
