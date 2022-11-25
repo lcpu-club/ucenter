@@ -8,7 +8,7 @@
         <div>{{ $t('login-method-chose-prompt') }}</div>
         <NDivider />
         <NSpace vertical>
-          <template v-for="(method, i) of config.loginMethods" :key="i">
+          <template v-for="(method, i) of loginMethods" :key="i">
             <router-link
               v-if="method.target"
               v-slot="{ navigate }"
@@ -36,5 +36,7 @@
 
 <script setup lang="ts">
 import { NCard, NSpace, NButton, NDivider } from 'naive-ui'
-import { config } from 'src/config'
+import { additional } from 'src/plugin/list'
+
+const loginMethods = [...additional('loginMethods')]
 </script>

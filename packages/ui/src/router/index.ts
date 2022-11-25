@@ -1,14 +1,15 @@
 import { isLoggedIn, userInfo } from 'src/api'
-import { additional, reduced } from 'src/plugin/list'
+import { additional } from 'src/plugin/list'
 import { createRouter, createWebHashHistory } from 'vue-router'
 
 export const router = createRouter({
   history: createWebHashHistory(),
   routes: [
+    ...additional('routes'),
     {
       name: 'index',
       path: '/',
-      component: reduced('index', () => import('src/pages/IndexPage.vue'))
+      component: () => import('src/pages/IndexPage.vue')
     },
     {
       name: 'login',
@@ -24,6 +25,7 @@ export const router = createRouter({
       path: '/user',
       component: () => import('src/pages/UserPage.vue'),
       children: [
+        ...additional('userRoutes'),
         {
           name: 'user',
           path: '',
@@ -36,35 +38,33 @@ export const router = createRouter({
         {
           path: 'token',
           component: () => import('src/pages/user/UserToken.vue')
-        },
-        ...additional('userRoutes')
+        }
       ]
     },
     {
       path: '/admin',
       component: () => import('src/pages/AdminPage.vue'),
       children: [
+        ...additional('adminRoutes'),
         {
           name: 'admin',
           path: '',
           component: () => import('src/pages/admin/AdminIndex.vue')
-        },
-        ...additional('adminRoutes')
+        }
       ]
     },
     {
       path: '/about',
       component: () => import('src/pages/AboutPage.vue'),
       children: [
+        ...additional('aboutRoutes'),
         {
           name: 'about',
           path: '',
           component: () => import('src/pages/about/AboutIndex.vue')
-        },
-        ...additional('aboutRoutes')
+        }
       ]
-    },
-    ...additional('routes')
+    }
   ]
 })
 

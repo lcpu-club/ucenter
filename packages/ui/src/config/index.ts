@@ -1,5 +1,3 @@
-import { additional } from 'src/plugin/list'
-
 export interface IBrand {
   icon: string
   href: string
@@ -14,7 +12,6 @@ export interface ILoginMethod {
 export interface IRuntimeConfig {
   brand?: IBrand
   baseUrl: string
-  loginMethods: ILoginMethod[]
 }
 
 export const config: IRuntimeConfig = {
@@ -22,8 +19,7 @@ export const config: IRuntimeConfig = {
     icon: import.meta.env.VITE_BRAND_ICON,
     href: import.meta.env.VITE_BRAND_HREF
   },
-  baseUrl: import.meta.env.VITE_API_BASE_URL,
-  loginMethods: [...additional('loginMethods')]
+  baseUrl: import.meta.env.VITE_API_BASE_URL
 }
 
 export function resolveUrl(path: string) {

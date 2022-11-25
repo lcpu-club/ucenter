@@ -25,8 +25,8 @@ const { t } = useI18n()
 
 const menuOptions: MenuOption[] = [
   {
-    key: 'user-center',
-    label: () => h(RouterLink, { to: '/user' }, () => t('user-center'))
+    key: 'home',
+    label: () => h(RouterLink, { to: '/' }, () => t('home'))
   },
   ...additionalFn('mainMenu')
 ]

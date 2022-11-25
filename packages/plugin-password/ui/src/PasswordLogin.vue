@@ -18,7 +18,9 @@
           />
         </NSpace>
         <template #action>
-          <NButton class="w-full" type="primary" @click="login">Login</NButton>
+          <NButton class="w-full" type="primary" @click="onLogin">
+            Login
+          </NButton>
         </template>
       </NCard>
     </div>
@@ -29,8 +31,8 @@
 import { NCard, NSpace, NInput, NButton, useNotification } from 'naive-ui'
 import { ref } from 'vue'
 import { createClient } from 'typeful-fetch'
+import { login } from '@ucenter/ui/src/api'
 import { resolveUrl } from '@ucenter/ui/src/config'
-import { post } from '@ucenter/ui/src/utils/broadcast'
 import type { PasswordAuthDescriptor } from '../../src'
 
 const notification = useNotification()
@@ -42,7 +44,7 @@ const client = createClient<PasswordAuthDescriptor>(
   resolveUrl('/auth/password/')
 )
 
-async function login() {
+async function onLogin() {
   try {
     const { _id, value } = await client.login.$post
       .body({
@@ -50,9 +52,7 @@ async function login() {
         password: password.value
       })
       .fetch()
-    localStorage.setItem('authTokenId', _id)
-    localStorage.setItem('authToken', value)
-    post('reload')
+    await login(_id, value)
   } catch (err) {
     notification.error({
       content: `${err}`,
