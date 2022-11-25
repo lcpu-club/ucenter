@@ -1,12 +1,18 @@
 <template>
-  <NLayoutHeader bordered class="h-16 p-4 shadow flex items-center">
-    <a v-if="config.brand" :href="config.brand.href">
-      <img :src="config.brand.icon" class="app-logo" />
-    </a>
+  <NLayoutHeader
+    bordered
+    position="absolute"
+    class="h-16 shadow flex items-center z-10"
+  >
+    <div class="self-stretch px-4 border-r flex items-center">
+      <a v-if="config.brand" :href="config.brand.href">
+        <img :src="config.brand.icon" class="app-logo" />
+      </a>
+    </div>
     <NMenu mode="horizontal" :options="menuOptions" />
     <SpaceHelper />
     <UserIndicator />
-    <LocaleIndicator />
+    <LocaleIndicator class="pr-4" />
   </NLayoutHeader>
 </template>
 

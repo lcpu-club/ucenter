@@ -43,11 +43,13 @@ export async function login(newAuthTokenId: string, newAuthToken: string) {
   post('reload')
 }
 
-if (isLoggedIn.value) {
-  await loadUserInfo().catch((err) => {
-    if (err instanceof HandlerFetchError) {
-      authToken.value = ''
-      post('reload')
-    }
-  })
+export async function initApi() {
+  if (isLoggedIn.value) {
+    await loadUserInfo().catch((err) => {
+      if (err instanceof HandlerFetchError) {
+        authToken.value = ''
+        post('reload')
+      }
+    })
+  }
 }

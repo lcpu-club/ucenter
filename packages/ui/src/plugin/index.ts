@@ -1,6 +1,7 @@
 import { RouteRecordRaw } from 'vue-router'
 import { ILoginMethod } from 'src/config'
 import { MenuOption } from 'naive-ui'
+import * as api from 'src/api'
 
 export interface UIPlugin {
   name: string
@@ -20,3 +21,5 @@ export interface UIPlugin {
 export function definePlugin(plugin: UIPlugin): UIPlugin {
   return plugin
 }
+
+export { api }

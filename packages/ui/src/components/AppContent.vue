@@ -3,19 +3,20 @@
     has-sider
     position="absolute"
     class="!top-16 !bottom-8"
-    :native-scrollbar="false"
     content-style="height: 100%"
   >
-    <router-view v-slot="{ Component }">
-      <transition name="router" mode="out-in">
-        <component :is="Component" />
-      </transition>
-    </router-view>
+    <NLayout :native-scrollbar="false">
+      <RouterView v-slot="{ Component }">
+        <Transition name="router" mode="out-in">
+          <component :is="Component" />
+        </Transition>
+      </RouterView>
+    </NLayout>
   </NLayoutContent>
 </template>
 
 <script setup lang="ts">
-import { NLayoutContent } from 'naive-ui'
+import { NLayout, NLayoutContent } from 'naive-ui'
 </script>
 
 <style>

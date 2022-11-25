@@ -6,6 +6,7 @@ import './style.css'
 import App from './App.vue'
 import { router } from './router'
 import { mergedMessages } from './utils/locale'
+import { initApi } from './api'
 
 const i18n = createI18n({
   legacy: false,
@@ -14,7 +15,9 @@ const i18n = createI18n({
   messages: mergedMessages
 })
 
-const app = createApp(App)
-app.use(i18n)
-app.use(router)
-app.mount('#app')
+initApi().then(() => {
+  const app = createApp(App)
+  app.use(i18n)
+  app.use(router)
+  app.mount('#app')
+})
