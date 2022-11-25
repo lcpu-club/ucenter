@@ -4,7 +4,7 @@
       <NSkeleton text :repeat="5" v-if="info.loading.value" />
       <AttrView
         v-else-if="info.state.value"
-        title="User Info"
+        :title="$t('user-info')"
         :attrs="userInfo.attributes ?? {}"
         :props="info.state.value.attrs"
         use-i18n

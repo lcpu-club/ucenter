@@ -3,7 +3,7 @@
     <NSkeleton text :repeat="5" v-if="loading" />
     <template v-else-if="state">
       <AttrView
-        title="Group Info"
+        :title="$t('group-info')"
         :attrs="state.group.attributes ?? {}"
         :props="state.attrs"
         readonly
@@ -18,7 +18,7 @@
       </AttrView>
       <NDivider />
       <AttrView
-        title="Group Policies"
+        :title="$t('group-policies')"
         :attrs="state.group.policies ?? {}"
         :props="state.policies"
         readonly

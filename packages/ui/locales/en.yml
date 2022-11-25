@@ -10,6 +10,11 @@ overview: Overview
 user-info: User Info
 admin-console: Admin Console
 about-ui: About uCenter
+user-group: Group
+user-token: Tokens
 name: Name
 nickname: Nickname
 email: Email
+group-info: Group Info
+group-policies: Group Policies
+access-tokens: Access Tokens

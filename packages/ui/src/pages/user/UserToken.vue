@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="pb-4 flex justify-between">
-      <div class="text-xl">Access Tokens</div>
+      <div class="text-xl">{{ $t('access-tokens') }}</div>
       <div></div>
     </div>
     <hr />

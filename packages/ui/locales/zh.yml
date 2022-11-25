@@ -7,6 +7,11 @@ overview: 总览
 user-info: 用户信息
 admin-console: 管理面板
 about-ui: 关于uCenter
+user-group: 用户组
+user-token: 用户令牌
 name: 名称
 nickname: 昵称
 email: 邮箱
+group-info: 用户组信息
+group-policies: 组策略
+access-tokens: 访问令牌

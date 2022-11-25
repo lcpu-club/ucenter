@@ -1,11 +1,17 @@
 <template>
-  <div class="p-16 w-full flex justify-center items-start">
+  <div class="p-16 <lg:p-1 w-full flex justify-center items-start">
     <NLayout class="border">
       <NLayoutHeader bordered class="p-4">
-        <div class="text-lg">User</div>
+        <div class="text-lg">{{ $t('user-center') }}</div>
       </NLayoutHeader>
       <NLayout has-sider>
-        <NLayoutSider bordered width="128">
+        <NLayoutSider
+          bordered
+          width="180"
+          collapse-mode="width"
+          :show-trigger="smallerThanLg || collapsed"
+          v-model:collapsed="collapsed"
+        >
           <NMenu :options="menuOptions" />
         </NLayoutSider>
         <NLayoutContent class="p-4">
@@ -21,7 +27,7 @@
 </template>
 
 <script setup lang="ts">
-import { h } from 'vue'
+import { h, ref } from 'vue'
 import { RouterLink } from 'vue-router'
 import {
   NLayout,
@@ -32,6 +38,15 @@ import {
   NLayoutContent
 } from 'naive-ui'
 import { additionalFn } from 'src/plugin/list'
+import { renderIcon } from 'src/utils'
+import { mdiAccount, mdiAccountGroup, mdiKey, mdiCircle } from '@mdi/js'
+import { breakpointsTailwind, useBreakpoints } from '@vueuse/core'
+import { useI18n } from 'vue-i18n'
+
+const breakpoints = useBreakpoints(breakpointsTailwind)
+const smallerThanLg = breakpoints.smaller('lg')
+const collapsed = ref(smallerThanLg.value)
+const { t } = useI18n()
 
 const menuOptions: MenuOption[] = [
   {
@@ -41,9 +56,10 @@ const menuOptions: MenuOption[] = [
         {
           to: '/user/'
         },
-        () => 'Info'
+        () => t('user-info')
       ),
-    key: 'info'
+    key: 'info',
+    icon: renderIcon(mdiAccount)
   },
   {
     label: () =>
@@ -52,9 +68,10 @@ const menuOptions: MenuOption[] = [
         {
           to: '/user/group'
         },
-        () => 'Group'
+        () => t('user-group')
       ),
-    key: 'group'
+    key: 'group',
+    icon: renderIcon(mdiAccountGroup)
   },
   {
     label: () =>
@@ -63,10 +80,14 @@ const menuOptions: MenuOption[] = [
         {
           to: '/user/token'
         },
-        () => 'Token'
+        () => t('user-token')
       ),
-    key: 'token'
+    key: 'token',
+    icon: renderIcon(mdiKey)
   },
   ...additionalFn('userMenu')
-]
+].map((option) => {
+  option.icon ??= renderIcon(mdiCircle)
+  return option
+})
 </script>
