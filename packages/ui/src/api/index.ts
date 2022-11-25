@@ -7,7 +7,7 @@ import { createClient, HandlerFetchError } from 'typeful-fetch'
 import { additional } from 'src/plugin/list'
 
 export const authTokenId = useLocalStorage('authTokenId', '')
-const authToken = useLocalStorage('authToken', '')
+export const authToken = useLocalStorage('authToken', '')
 export const isLoggedIn = computed(() => !!authToken.value)
 
 export const client = createClient<RootDescriptor>(resolveUrl('/'), () => {

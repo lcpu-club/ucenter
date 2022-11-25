@@ -1,5 +1,5 @@
 <template>
-  <div class="w-full h-full flex justify-center items-center">
+  <div class="w-full pt-20 flex justify-center items-center">
     <div>
       <NCard hoverable :segmented="{ content: true }">
         <template #header>
