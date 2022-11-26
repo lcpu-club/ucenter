@@ -1,13 +1,15 @@
 <template>
   <NConfigProvider :locale="locale" :date-locale="dateLocale">
     <NNotificationProvider placement="bottom-right">
-      <NLoadingBarProvider>
-        <NLayout position="absolute">
-          <AppHeader />
-          <AppContent />
-          <AppFooter />
-        </NLayout>
-      </NLoadingBarProvider>
+      <NDialogProvider>
+        <NLoadingBarProvider>
+          <NLayout position="absolute">
+            <AppHeader />
+            <AppContent />
+            <AppFooter />
+          </NLayout>
+        </NLoadingBarProvider>
+      </NDialogProvider>
     </NNotificationProvider>
   </NConfigProvider>
 </template>
@@ -16,6 +18,7 @@
 import {
   NLayout,
   NNotificationProvider,
+  NDialogProvider,
   NConfigProvider,
   NLoadingBarProvider,
   zhCN,
