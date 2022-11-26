@@ -4,7 +4,11 @@ import { join } from 'path'
 import vue from '@vitejs/plugin-vue'
 import vueI18n from '@intlify/vite-plugin-vue-i18n'
 import WindiCSS from 'vite-plugin-windicss'
-import { pluginLoader } from './build/plugin-loader'
+import {
+  getPluginDirs,
+  getPluginTargets,
+  pluginLoader
+} from './build/plugin-loader'
 
 config()
 
@@ -20,6 +24,8 @@ checkEnv('VITE_GRAVATAR_URL', 'https://www.gravatar.com/avatar/')
 checkEnv('VITE_DEFAULT_LOCALE', 'en')
 checkEnv('VITE_FOOTER_TEXT_LEFT', 'Linux Club of Peking University')
 
+const plugins = getPluginTargets()
+
 export default defineConfig({
   plugins: [
     vue(),
@@ -27,8 +33,12 @@ export default defineConfig({
       compositionOnly: true,
       include: join(__dirname, 'locales', '**')
     }),
-    WindiCSS(),
-    pluginLoader()
+    WindiCSS({
+      scan: {
+        dirs: [join(__dirname, 'src'), ...getPluginDirs(plugins)]
+      }
+    }),
+    pluginLoader(plugins)
   ],
   resolve: {
     alias: {
