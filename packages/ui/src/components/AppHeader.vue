@@ -18,7 +18,7 @@
 
 <script setup lang="ts">
 import { NLayoutHeader, NMenu, MenuOption } from 'naive-ui'
-import { config } from 'src/config'
+import { config } from 'src/utils'
 import { additionalFn } from 'src/plugin/list'
 import { h } from 'vue'
 import { useI18n } from 'vue-i18n'

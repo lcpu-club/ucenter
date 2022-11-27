@@ -13,7 +13,7 @@
 
 <script setup lang="ts">
 import { NAvatar, NTag, NSpace, NDropdown, DropdownOption } from 'naive-ui'
-import { userInfo } from 'src/api'
+import { userInfo } from 'src/utils'
 import { post } from 'src/utils/broadcast'
 import { useI18n } from 'vue-i18n'
 import { renderIcon } from 'src/utils/render'
@@ -33,7 +33,8 @@ const options: DropdownOption[] = [
   {
     key: 'admin',
     label: () => h(RouterLink, { to: '/admin' }, () => t('admin-console')),
-    icon: renderIcon(mdiHammerWrench)
+    icon: renderIcon(mdiHammerWrench),
+    show: userInfo.value?.group?.policies?.['center:admin']
   },
   {
     key: 'about',

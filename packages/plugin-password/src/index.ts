@@ -1,4 +1,4 @@
-import { Plugin, rootChain, askString } from '@ucenter/server'
+import { Plugin, rootChain, askString, protectedChain } from '@ucenter/server'
 import { Type } from '@sinclair/typebox'
 import { GetRouterDescriptor } from 'fastify-typeful'
 import http from 'http-errors'
@@ -12,35 +12,54 @@ declare module '@ucenter/server' {
   }
 }
 
-const router = rootChain.router().handle('POST', '/login', (C) =>
-  C.handler()
-    .body(
-      Type.Object({
-        username: Type.String(),
-        password: Type.String()
-      })
-    )
-    .handle(async ({ dbconn }, req) => {
-      const { username, password } = req.body
-      const user = await dbconn.user.collection.findOne(
-        { 'attributes.name': username },
-        {
-          projection: {
-            _id: 1,
-            'authSources.password': 1
+const router = rootChain
+  .router()
+  .handle('POST', '/login', (C) =>
+    C.handler()
+      .body(
+        Type.Object({
+          username: Type.String(),
+          password: Type.String()
+        })
+      )
+      .handle(async ({ dbconn }, req) => {
+        const { username, password } = req.body
+        const user = await dbconn.user.collection.findOne(
+          { 'attributes.name': username },
+          {
+            projection: {
+              _id: 1,
+              'authSources.password': 1
+            }
           }
-        }
-      )
-      if (!user || !user.authSources.password) throw http.Unauthorized()
-      const result = await bcrypt.compare(
-        password,
-        user.authSources.password.hash
-      )
-      if (!result) throw http.Unauthorized()
-      const info = await dbconn.token.createCenterToken(user._id)
-      return info
-    })
-)
+        )
+        if (!user || !user.authSources.password) throw http.Unauthorized()
+        const result = await bcrypt.compare(
+          password,
+          user.authSources.password.hash
+        )
+        if (!result) throw http.Unauthorized()
+        const info = await dbconn.token.createCenterToken(user._id)
+        return info
+      })
+  )
+  .route(
+    '/user',
+    protectedChain.router().handle('PUT', '/set', (C) =>
+      C.handler()
+        .body(
+          Type.Object({
+            password: Type.String()
+          })
+        )
+        .handle(async ({ dbconn, user }, req) => {
+          const { password } = req.body
+          const hash = await bcrypt.hash(password, 10)
+          await dbconn.user.setAuthSource(user._id, 'password', { hash })
+          return 0
+        })
+    )
+  )
 
 export type PasswordAuthDescriptor = GetRouterDescriptor<typeof router>
 

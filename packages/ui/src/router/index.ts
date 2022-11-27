@@ -1,4 +1,4 @@
-import { isLoggedIn, userInfo } from 'src/api'
+import { isLoggedIn, userInfo } from 'src/utils'
 import { additional } from 'src/plugin/list'
 import { createRouter, createWebHashHistory } from 'vue-router'
 

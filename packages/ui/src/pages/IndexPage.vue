@@ -13,7 +13,7 @@
 </template>
 
 <script setup lang="ts">
-import { isLoggedIn, userInfo } from 'src/api'
+import { isLoggedIn, userInfo } from 'src/utils'
 import { onMounted } from 'vue'
 import { useRouter } from 'vue-router'
 

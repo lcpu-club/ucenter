@@ -1,30 +1,16 @@
-import { useLocalStorage } from '@vueuse/core'
-import { computed } from 'vue'
-import { resolveUrl } from 'src/config'
 import { post } from 'src/utils/broadcast'
 import type { RootDescriptor } from '@ucenter/server'
-import { createClient, HandlerFetchError } from 'typeful-fetch'
+import { HandlerFetchError } from 'typeful-fetch'
 import { additional } from 'src/plugin/list'
+import {
+  createResolvedClient,
+  authToken,
+  authTokenId,
+  isLoggedIn,
+  userInfo
+} from 'src/utils'
 
-export const authTokenId = useLocalStorage('authTokenId', '')
-export const authToken = useLocalStorage('authToken', '')
-export const isLoggedIn = computed(() => !!authToken.value)
-
-export const client = createClient<RootDescriptor>(resolveUrl('/'), () => {
-  return {
-    headers: {
-      'x-auth-token': authToken.value
-    }
-  }
-})
-
-export type UserInfo = NonNullable<
-  Awaited<ReturnType<typeof client['verify']['$post']['fetch']>>
->
-
-export const userInfo = useLocalStorage<UserInfo>('userInfo', null as never, {
-  deep: true
-})
+export const client = createResolvedClient<RootDescriptor>('/')
 
 export async function loadUserInfo(token?: string) {
   const info = await client.verify.$post

@@ -68,11 +68,12 @@ import {
   NDescriptions,
   NDescriptionsItem
 } from 'naive-ui'
-import { authTokenId, client } from 'src/api'
+import { client } from 'src/api'
 import { ref } from 'vue'
 import UIcon from 'src/components/UIcon.vue'
 import AsyncBtn from 'src/components/AsyncBtn.vue'
 import { mdiKey, mdiDelete } from '@mdi/js'
+import { authTokenId } from 'src/utils'
 
 async function getTokens() {
   return client.user.token.$get.fetch()

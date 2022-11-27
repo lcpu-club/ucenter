@@ -1,3 +1,6 @@
+import { createClient, RouterDescriptor } from 'typeful-fetch'
+import { authToken } from './refs'
+
 export interface IBrand {
   icon: string
   href: string
@@ -27,4 +30,17 @@ export function resolveUrl(path: string) {
   if (base.endsWith('/')) base = base.slice(0, -1)
   if (path.startsWith('/')) path = path.slice(1)
   return base + '/' + path
+}
+
+export function createResolvedClient<
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any, @typescript-eslint/ban-types
+  R extends RouterDescriptor<any> = RouterDescriptor<{}>
+>(base: string) {
+  return createClient<R>(resolveUrl(base), () => {
+    return {
+      headers: {
+        'x-auth-token': authToken.value
+      }
+    }
+  })
 }

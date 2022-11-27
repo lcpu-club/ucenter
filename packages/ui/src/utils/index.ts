@@ -1,4 +1,6 @@
 export * from './broadcast'
+export * from './config'
 export * from './gravatar'
 export * from './locale'
 export * from './render'
+export * from './refs'

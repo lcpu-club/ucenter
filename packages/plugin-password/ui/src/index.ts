@@ -35,11 +35,13 @@ export default definePlugin({
   locales: {
     en: {
       password: 'Password',
-      'login-by-password': 'Password'
+      'login-by-password': 'Password',
+      'change-password': 'Change Password'
     },
     zh: {
       password: '密码',
-      'login-by-password': '密码登录'
+      'login-by-password': '密码登录',
+      'change-password': '修改密码'
     }
   }
 })

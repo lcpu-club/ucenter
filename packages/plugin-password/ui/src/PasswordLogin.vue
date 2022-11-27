@@ -30,19 +30,13 @@
 <script setup lang="ts">
 import { NCard, NSpace, NInput, NButton, useNotification } from 'naive-ui'
 import { ref } from 'vue'
-import { createClient } from 'typeful-fetch'
 import { login } from '@ucenter/ui/src/api'
-import { resolveUrl } from '@ucenter/ui/src/config'
-import type { PasswordAuthDescriptor } from '../../src'
+import { client } from './api'
 
 const notification = useNotification()
 
 const username = ref('')
 const password = ref('')
-
-const client = createClient<PasswordAuthDescriptor>(
-  resolveUrl('/auth/password/')
-)
 
 async function onLogin() {
   try {

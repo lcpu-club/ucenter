@@ -6,7 +6,7 @@
 </template>
 
 <script setup lang="ts">
-import { isLoggedIn } from 'src/api'
+import { isLoggedIn } from 'src/utils'
 import UserIndicatorNotLoggedIn from './UserIndicatorNotLoggedIn.vue'
 import UserIndicatorLoggedIn from './UserIndicatorLoggedIn.vue'
 </script>

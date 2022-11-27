@@ -1,5 +1,5 @@
 import { RouteRecordRaw } from 'vue-router'
-import { ILoginMethod } from 'src/config'
+import { ILoginMethod } from 'src/utils'
 import { MenuOption } from 'naive-ui'
 
 export interface UIPlugin {

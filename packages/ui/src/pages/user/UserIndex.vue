@@ -23,9 +23,10 @@
 
 <script setup lang="ts">
 import { NSkeleton, NSpin } from 'naive-ui'
-import { client, userInfo } from 'src/api'
+import { client } from 'src/api'
 import AttrView, { IAttrProp, Attrs } from 'src/components/AttrView.vue'
 import { useAsyncState, useAsyncTask } from 'src/compose/async'
+import { userInfo } from 'src/utils'
 
 const info = useAsyncState(async () => {
   const contrib = await client.user.user_attributes.$get.fetch()
