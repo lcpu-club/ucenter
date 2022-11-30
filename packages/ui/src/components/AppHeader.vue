@@ -4,12 +4,16 @@
     position="absolute"
     class="h-16 shadow flex items-center z-10"
   >
-    <div class="self-stretch px-4 border-r flex items-center">
-      <a v-if="config.brand" :href="config.brand.href">
-        <img :src="config.brand.icon" class="app-logo" />
-      </a>
+    <div class="self-stretch overflow-x-auto">
+      <div class="h-full flex items-center w-max-content">
+        <div class="self-stretch px-4 border-r flex items-center">
+          <a v-if="config.brand" :href="config.brand.href">
+            <img :src="config.brand.icon" class="app-logo" />
+          </a>
+        </div>
+        <NMenu mode="horizontal" :options="menuOptions" />
+      </div>
     </div>
-    <NMenu mode="horizontal" :options="menuOptions" />
     <SpaceHelper />
     <UserIndicator />
     <LocaleIndicator class="pr-4" />
@@ -41,5 +45,9 @@ const menuOptions: MenuOption[] = [
 <style>
 .app-logo {
   @apply h-6;
+}
+
+.w-max-content {
+  width: max-content;
 }
 </style>
